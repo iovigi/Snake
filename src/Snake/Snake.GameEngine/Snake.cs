@@ -25,20 +25,20 @@
             switch (direction)
             {
                 case Direction.Top:
-                    y = y == 0 ? this.map.Height : y - 1;
+                    y = y == 0 ? this.map.Height - 1 : y - 1;
                     break;
                 case Direction.Bottom:
-                    y = y == this.map.Height ? 0 : y + 1;
+                    y = y == this.map.Height - 1 ? 0 : y + 1;
                     break;
                 case Direction.Left:
-                    x = x == 0 ? this.map.Width : x - 1;
+                    x = x == 0 ? this.map.Width - 1 : x - 1;
                     break;
                 case Direction.Right:
-                    x = x == this.map.Width ? 0 : x + 1;
+                    x = x == this.map.Width - 1 ? 0 : x + 1;
                     break;
             }
 
-            if(map[y,x] == FieldType.Food)
+            if (map[y, x] == FieldType.Food)
             {
                 map[y, x] = FieldType.SnakeTale;
 

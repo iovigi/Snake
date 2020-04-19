@@ -16,13 +16,13 @@
             var snake = new Snake(map);
             var foodProcessor = new FoodProcessor(map);
 
-            var gameEngine = new GameEngine(snake, foodProcessor, new GameConfiguration() { RefreshSeconds = 250 });
+            var gameEngine = new GameEngine(snake, foodProcessor, new GameConfiguration() { RefreshSeconds = 50 });
             gameEngine.OnRefresh = () => PrintMap(map);
             gameEngine.StartNewGame();
 
-            while(!gameEngine.IsGameOver)
+            while (!gameEngine.IsGameOver)
             {
-               switch(Console.ReadKey().Key)
+                switch (Console.ReadKey().Key)
                 {
                     case System.ConsoleKey.UpArrow:
                         gameEngine.Move(Direction.Top);
@@ -40,24 +40,29 @@
             }
         }
 
+        private static object syncroot = new object();
+
         public static void PrintMap(IMap map)
         {
-            Console.Clear();
-
-            for (int i = 0; i < map.Height; i++)
+            lock (syncroot)
             {
-                for (int j = 0; j < map.Width; j++)
+                Console.Clear();
+
+                for (int i = 0; i < map.Height; i++)
                 {
-                    switch (map[i, j])
+                    for (int j = 0; j < map.Width; j++)
                     {
-                        case FieldType.Food:
-                            Console.SetCursorPosition(j, i);
-                            Console.Write('*');
-                            break;
-                        case FieldType.SnakeTale:
-                            Console.SetCursorPosition(j, i);
-                            Console.Write('X');
-                            break;
+                        switch (map[i, j])
+                        {
+                            case FieldType.Food:
+                                Console.SetCursorPosition(j, i);
+                                Console.Write('*');
+                                break;
+                            case FieldType.SnakeTale:
+                                Console.SetCursorPosition(j, i);
+                                Console.Write('X');
+                                break;
+                        }
                     }
                 }
             }
